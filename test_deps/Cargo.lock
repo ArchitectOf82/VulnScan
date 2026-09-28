@@ -1,0 +1,8 @@
+# demo Cargo.lock
+[[package]]
+name = "libc"
+version = "0.2.20"
+
+[[package]]
+name = "serde"
+version = "1.0.60"

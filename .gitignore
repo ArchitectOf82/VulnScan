@@ -1,0 +1,26 @@
+# --- 运行时输出（真实扫描数据不入库） ---
+output/
+reports/
+
+# --- Python 缓存 / 编译产物 ---
+__pycache__/
+*.py[cod]
+python/data/cache/
+
+# --- C++ 编译产物（源码可重建，scripts/build_cpp.bat） ---
+build/*.exe
+build/*.obj
+build/*.o
+build/*.dll
+build/*.exp
+build/*.lib
+*.obj
+*.o
+*.exp
+*.lib
+cpp/*.obj
+
+# --- 本地配置 / 杂项 ---
+cron_config.json
+.vscode/
+.idea/
