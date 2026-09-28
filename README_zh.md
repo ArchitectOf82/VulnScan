@@ -32,7 +32,7 @@ VulnScan/
 ## 用法
 
 ### 方式 A：CLI 一键扫描（推荐，肯定能用）
-双击 `扫描.bat`，输入要扫描的目录（如 `E:\Program Files\QQ`），回车。
+双击 `扫描.bat`，输入要扫描的目录（如 `C:\Program Files\MyApp`），回车。
 扫描完成后自动打开 `output\` 文件夹，内含 HTML 报告。
 命令行等价：
 ```
@@ -41,7 +41,7 @@ python python\vulnscan.py <目录> --out output
 
 ### 方式 B：Web UI（图形界面，可选）
 双击 `启动扫描器.bat`，浏览器自动打开 http://127.0.0.1:8000。
-**注意**：Web UI 依赖本机 HTTP 服务。如果你的安全软件（腾讯电脑管家等）
+**注意**：Web UI 依赖本机 HTTP 服务。如果你的安全软件
 拦截了本地回环访问，页面会一直"加载中/无法访问"。此时请在安全软件里给
 python.exe 放行本地访问，或改用 CLI 方式。
 
@@ -49,7 +49,7 @@ python.exe 放行本地访问，或改用 CLI 方式。
 双击 `scripts\build_cpp.bat`（需要 VS 编译器）。
 
 ## 内置 CVE 库覆盖（46+ 库 / 114+ 条 CVE）
-覆盖主流通用第三方库（不限腾讯系，任何软件目录都能扫）：
+覆盖主流通用第三方库（任何软件目录都能扫）：
 - **网络/加密**：curl、OpenSSL、c-ares、nghttp2、libssh2、wolfSSL、mbedTLS、libevent、libsodium
 - **媒体/图像**：FFmpeg、libpng、libjpeg、libwebp、libtiff、openjpeg、giflib、libheif、libsndfile、libvpx、libmp3lame
 - **字体/文本**：freetype、harfbuzz、ICU
