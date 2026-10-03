@@ -108,6 +108,7 @@ def main():
     ap.add_argument("--jsextract", action="store_true", help="模块16：JS 敏感信息/端点提取（URL 取 --weburl，只读）")
     ap.add_argument("--takeover", default=None, help="模块17：子域接管检测（授权域名，被动 DNS+仅 banner 探测）")
     ap.add_argument("--apidiscover", action="store_true", help="模块18：API 资产发现（URL 取 --weburl，只读）")
+    ap.add_argument("--ai", action="store_true", help="模块19：AI 分析（LLM 解读/筛误报/修复建议，需本地 Ollama 或 AI_API_URL+AI_API_KEY）")
     ap.add_argument("--all", action="store_true", help="执行全部模块并生成统一报告（模块7）")
     args = ap.parse_args()
 
@@ -433,6 +434,19 @@ def main():
         import report_all
         unified = os.path.join(out_dir, "unified_report.html")
         report_all.generate_all_report(results, unified, scanned_at=scanned_at)
+
+    # Module 19: AI analysis (LLM, dual-mode, graceful degrade)
+    if args.ai or args.all:
+        import ai_analyze
+        print("\n[*] 模块19: AI 分析（LLM 解读/筛误报/修复建议）...")
+        ai_res = ai_analyze.analyze(matches, extra_context=f"扫描目录: {args.directory}")
+        print(f"[*] AI 引擎: {ai_res['engine']}")
+        results["ai"] = ai_res
+        ai_fixed = os.path.join(out_dir, "ai_report.html")
+        ai_stamp = os.path.join(out_dir, f"ai_report_{stamp}.html")
+        ai_analyze._render_html(ai_res, ai_fixed)
+        ai_analyze._render_html(ai_res, ai_stamp)
+        print(f"[*] AI 分析报告已生成: {ai_fixed}")
 
     # history snapshot for later diff (history_compare.py)
     try:
