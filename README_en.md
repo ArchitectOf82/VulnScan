@@ -1,6 +1,6 @@
 # VulnScan — Third-Party Library & Binary Vulnerability Scanner
 
-> A 18-module, read-only vulnerability scanner that detects known CVEs in third-party libraries, audits binary attack surfaces, finds information leaks, and probes online services for weak configurations — all from a single tool. Authorized-asset focused, designed for security researchers, CTF teams, and product security QA.
+> A 19-module, read-only vulnerability scanner that detects known CVEs in third-party libraries, audits binary attack surfaces, finds information leaks, probes online services for weak configurations, and uses an LLM to interpret results — all from a single tool. Authorized-asset focused, designed for security researchers, CTF teams, and product security QA.
 
 [中文说明 · Chinese README](README.md)
 
@@ -8,7 +8,7 @@
 
 ## Highlights
 
-- **18 built-in modules** — CVE matching, binary audit, info-leak scan, port scan, web weak-config, Windows baseline, SBOM, dependency (OSV) scan, fuzzing, online probe, subdomain enum, TLS check, fingerprint, JS extraction, subdomain takeover, API discovery, and more.
+- **19 built-in modules** — CVE matching, binary audit, info-leak scan, port scan, web weak-config, Windows baseline, SBOM, dependency (OSV) scan, fuzzing, online probe, subdomain enum, TLS check, fingerprint, JS extraction, subdomain takeover, API discovery, LLM analysis, and more.
 - **Offline-first** — large built-in CVE database (46+ libraries / 114+ CVEs), optional NVD enrichment via `NVD_API_KEY`.
 - **Read-only & compliant** — all online modules perform harmless GET / DNS queries only. No exploitation, no weaponization.
 - **Product-grade output** — unified HTML report, PDF/Word export, historical comparison, batch multi-target, scheduled runs, auto library-add.
@@ -38,6 +38,7 @@
 | 16 | JS Extract | Grab page JS and scan for cloud keys / tokens / internal endpoints / API endpoints (read-only) |
 | 17 | Subdomain Takeover | Check whether a CNAME points to an unclaimed third-party service (passive DNS + banner) |
 | 18 | API Discovery | Probe swagger / OpenAPI / Actuator / REST endpoints (read-only GET) |
+| 19 | AI Analysis | LLM interpretation of scan results: per-item risk / false-positive screening / fix advice / overall conclusion (dual-mode: local Ollama + OpenAI-compatible API) |
 
 ---
 
@@ -78,6 +79,7 @@ python python\vulnscan.py <dir> --web --out output           # ④ Web weak conf
 python python\vulnscan.py <dir> --baseline --out output      # ⑤ Windows baseline (+CVE)
 python python\vulnscan.py <dir> --port 127.0.0.1 --out output # ⑥ Port scan (+CVE)
 python python\vulnscan.py <dir> --dep --out output           # ⑧ Dependency scan (OSV)
+python vulnscan.py <dir> --ai --out output                   # ⑲ AI analysis (LLM: Ollama or OpenAI-compatible API)
 python vulnscan.py <dir> --all --out output                  # all modules + unified report
 ```
 

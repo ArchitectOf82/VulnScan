@@ -160,6 +160,32 @@ python add_library.py fetch <库名> [--min-cvss 7]   # 只拉 CVE
 - ⑰ 子域接管检测：查 CNAME 是否指向无人认领第三方服务（被动 DNS + banner）
 - ⑱ API 资产发现：探测 swagger/OpenAPI/Actuator/REST 端点（只读 GET）
 
+## 模块 19 · AI 分析（LLM，双模式）
+
+把扫描结果交给大模型做 AI 解读，让 VulnScan 从「能扫」变「能判断」：
+- **漏洞解读**：逐项说明是什么、危害、风险等级（CVSS）
+- **误报筛查**：判断哪些更可能是真问题 / 疑似误报 / 不确定，并给依据
+- **修复建议**：每项附具体可操作的修复方向
+- **整体结论**：3-5 句概括整体风险与优先处理项，生成 `ai_report.html`
+
+**双模式模型接入（自动降级）**：
+- **本地 Ollama（优先，离线免费）**：默认 `http://127.0.0.1:11434`，模型默认 `qwen2.5`（可经 `AI_MODEL` 改）。装好 Ollama 并 `ollama pull qwen2.5` 即可用。
+- **OpenAI 兼容 API（兜底）**：设环境变量 `AI_API_URL` + `AI_API_KEY` + `AI_MODEL`（如 DeepSeek/Kimi/豆包等）。
+- **都没配置**：自动降级为规则化总结（结构化摘要 + 类型分布 + 最高 CVSS），不影响扫描。
+
+```
+python vulnscan.py <目录> --ai               # 只加 AI 分析（配合上面任一扫描）
+python vulnscan.py <目录> --all              # 全部模块，统一报告含模块19分区
+python ai_analyze.py <snapshot.json>         # 独立分析已有快照
+```
+
+环境变量示例（OpenAI 兼容 API）：
+```
+AI_API_URL=https://api.deepseek.com/v1/chat/completions
+AI_API_KEY=你的key
+AI_MODEL=deepseek-chat
+```
+
 ## 产品化能力
 统一报告、PDF/Word 导出、历史对比、批量多目标、定时配置、自动加库。
 
